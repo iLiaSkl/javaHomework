@@ -1,26 +1,23 @@
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.Scanner;
-import java.text.NumberFormat;
-import java.text.DateFormat;
-import java.util.GregorianCalendar;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+
 
 public class Main {
     public static void main(String[] args) {
 
+        LocalDate birthday = LocalDate.of(1997, 6, 13);
+        LocalDate today = LocalDate.now();
 
-        DateFormat dateFormat = new SimpleDateFormat("- dd.MM.yyyy - EEE");
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(1997, Calendar.JUNE, 13);
-        Date date = new Date();
-        Date your = calendar.getTime();
+
         int i = 0;
 
-        while (date.compareTo(your) > 0)
+        while (today.isAfter(birthday))
         {
-            System.out.println(i + dateFormat.format(your));
-            calendar.add(Calendar.YEAR, 1);
-            your = calendar.getTime();
+            String formattedDate = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).format(birthday);
+            birthday = birthday.plusYears(1);
+            System.out.println(i + " " + formattedDate);
             i++;
         }
     }
