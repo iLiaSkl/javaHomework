@@ -5,7 +5,6 @@ public class Loader {
     public static void main(String[] args) {
 
         JFrame frame = new JFrame();
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         int d1 = 800;
         int d2 = 600;
 
