@@ -30,16 +30,9 @@ public class RoadController
             System.out.println("Скорость: " + Camera.getCarSpeed(car) + " км/ч");
 
             /**
-             * Пропускаем автомобили спецтранспорта
-             */
-            if(car.isSpecial()) {
-                openWay();
-                continue;
-            }
-
-            /**
              * Проверка на наличие номера в списке номеров нарушителей
              */
+            //Boolean policeCalled
             Boolean policeCalled = false;
             for(String criminalNumber : Police.getCriminalNumbers())
             {
@@ -49,14 +42,13 @@ public class RoadController
                     blockWay("не двигайтесь с места! За вами уже выехали!");
                     break;
                 }
-                if (carNumber.equals(criminalNumber) && car.isSpecial())
-                {
-                    Police.call("автомобиль нарушителя с номером " + carNumber);
-                    blockWay("не двигайтесь с места! За вами уже выехали!");
-                    break;
-                }
             }
             if(Police.wasCalled()) {
+                continue;
+            }
+
+            if(car.isSpecial()) {
+                openWay();
                 continue;
             }
 
@@ -64,6 +56,7 @@ public class RoadController
              * Проверяем высоту и массу автомобиля, вычисляем стоимость проезда
              */
             Integer carHeight = car.getHeight();
+            //Integer price
             Integer price = 0;
             if(carHeight > controllerMaxHeight)
             {
@@ -72,6 +65,7 @@ public class RoadController
             }
             else if(carHeight > passengerCarMaxHeight)
             {
+                //Double weight
                 Double weight = WeightMeter.getWeight(car);
                 //Грузовой автомобиль
                 if(weight > passengerCarMaxWeight)
@@ -93,6 +87,7 @@ public class RoadController
             /**
              * Проверка скорости подъезда и выставление штрафа
              */
+            //Integer carSpeed
             Integer carSpeed = Camera.getCarSpeed(car);
             if(carSpeed > criminalSpeed)
             {
