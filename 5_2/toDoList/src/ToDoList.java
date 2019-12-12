@@ -2,18 +2,19 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ToDoList {
-    private LinkedList<String> todo = new LinkedList<>();
+
+    public static LinkedList<String> todo = new LinkedList<>();
 
     public ToDoList(){
         todo.add("tododo");
         todo.add("nothing");
     }
 
-    public List<String> list() {
+    public static List<String> list() {
         return todo;
     }
 
-    public void add(String task, int pos){
+    public static void add(String task, int pos){
         if(pos >= todo.size()){
             todo.add(task);
         } else if (pos <= 0){
@@ -23,14 +24,18 @@ public class ToDoList {
         }
     }
 
-    public void edit(String task, int pos) {
+    public static void addLast(String task){
+        todo.add(task);
+    }
+
+    public static void edit(String task, int pos) {
         if ( pos >= 0 && pos < todo.size()){
             todo.set(pos, task);
         } else {
             add(task, pos);
         }
     }
-    public void delete(int pos){
+    public static void delete(int pos){
         if (pos >= 0 && pos < todo.size()){
             todo.remove(pos);
         }
