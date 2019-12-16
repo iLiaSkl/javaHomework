@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Main {
+    static Set<String> emails = new HashSet<>();
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -13,9 +14,13 @@ public class Main {
                 "LIST, \n" +
                 "ADD <email> \n");
 
-        Set<String> emails = new HashSet<>();
+
         while (true){
-            System.out.println(">>> A");
+
+
+
+            System.out.println(">>> ");
+
             String commandLine = reader.readLine().trim();
 
             if(commandLine.equalsIgnoreCase("exit")){
@@ -23,23 +28,13 @@ public class Main {
             }
 
             String[] command = commandLine.split(" ");
+
             switch (command[0].toUpperCase()){
                 case "ADD":
-                    if(command.length == 2 && check(command[1])){
-                        emails.add(command[1]);
-                    } else{
-                        printWarning();
-                    }
+                    add(command);
                     break;
-
                 case "LIST":
-                    if(emails.isEmpty()){
-                        System.out.println("Пусто");
-                        break;
-                    }
-                    for (String em : emails){
-                        System.out.println(em);
-                    }
+                    list(command);
                     break;
                 default:
                     printWarning();
@@ -55,4 +50,24 @@ public class Main {
     private static boolean check(String email){
         return email.toUpperCase().matches("^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$");
     }
+
+    public static void add(String[] command){
+
+        if(command.length == 2 && check(command[1])){
+            emails.add(command[1]);
+        } else{
+            printWarning();
+        }
+    }
+
+    public static void list(String[] command){
+
+        if(emails.isEmpty()){
+            System.out.println("Пусто");
+        }
+        for (String em : emails){
+            System.out.println(em);
+        }
+    }
+
 }
