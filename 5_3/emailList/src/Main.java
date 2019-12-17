@@ -1,73 +1,39 @@
-import java.io.BufferedReader;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.HashSet;
-import java.util.Set;
 
-public class Main {
-    static Set<String> emails = new HashSet<>();
+
+public class Main extends EmailList{
+
+    private final static String COMMAND_ADD = "ADD";
+    private final static String COMMAND_LIST = "LIST";
+    private final static String COMMAND_EXIT = "EXIT";
+
     public static void main(String[] args) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        System.out.println("Введите exit, чтобы выйти из программы");
+
+        System.out.println("Введите EXIT, чтобы выйти из программы");
         System.out.println("Commands: \n" +
                 "LIST, \n" +
                 "ADD <email> \n");
 
-
-        while (true){
-
-
-
-            System.out.println(">>> ");
-
-            String commandLine = reader.readLine().trim();
-
-            if(commandLine.equalsIgnoreCase("exit")){
-                return;
+        EmailList emailList = new EmailList();
+        for (;;) {
+                System.out.println(">>> ");
+                String userInput = UserInput.getLine();
+                if (userInput.startsWith(COMMAND_ADD)) {
+                    emailList.add(userInput.replaceFirst(COMMAND_ADD, "").trim());
+                } else if (userInput.equals(COMMAND_LIST)) {
+                    emailList.list();
+                } else if (userInput.equals(COMMAND_EXIT)) {
+                    break;
+                } else {
+                    System.out.println("неверная команда");
+                }
             }
 
-            String[] command = commandLine.split(" ");
 
-            switch (command[0].toUpperCase()){
-                case "ADD":
-                    add(command);
-                    break;
-                case "LIST":
-                    list(command);
-                    break;
-                default:
-                    printWarning();
-            }
 
         }
     }
 
-    private static void printWarning(){
-        System.out.println("Попробуйте еще раз");
-    }
 
-    private static boolean check(String email){
-        return email.toUpperCase().matches("^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$");
-    }
-
-    public static void add(String[] command){
-
-        if(command.length == 2 && check(command[1])){
-            emails.add(command[1]);
-        } else{
-            printWarning();
-        }
-    }
-
-    public static void list(String[] command){
-
-        if(emails.isEmpty()){
-            System.out.println("Пусто");
-        }
-        for (String em : emails){
-            System.out.println(em);
-        }
-    }
-
-}
