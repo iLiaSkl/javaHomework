@@ -1,11 +1,12 @@
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.stream.Collectors;
+
 
 public class PhoneBook {
 
     private Map<String, String> phoneBook;
 
-    PhoneBook(){
+    PhoneBook() {
         phoneBook = new TreeMap<>();
     }
 
@@ -16,11 +17,19 @@ public class PhoneBook {
     }
 
     Entry findByPhoneNum(String phoneNum) {
+
         return phoneBook.entrySet().stream()
                 .filter(entry -> entry.getValue().equals(phoneNum))
                 .findFirst()
                 .map(en -> new Entry(en.getKey(), en.getValue()))
                 .orElse(new Entry(null, phoneNum));
+
+    }
+
+    List<Map.Entry<String, String>> find(String phoneNum) {
+
+        return  phoneBook.entrySet().stream()
+                .filter(entry -> entry.getValue().equals(phoneNum)).collect(Collectors.toList());
 
     }
 
@@ -49,7 +58,7 @@ public class PhoneBook {
         return builder.toString();
     }
 
-    class Entry {
+    class Entry  {
         private String phoneNum;
         private String name;
 
